@@ -1,0 +1,49 @@
+{
+  "name": "DefenseByNight",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "prettier": "prettier ‘src/**/*.js’",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "acorn": "^6.1.1",
+    "react": "16.8.3",
+    "react-native": "0.59.8",
+    "react-native-elements": "^1.1.0",
+    "react-native-gesture-handler": "^1.2.1",
+    "react-native-vector-icons": "^6.4.2",
+    "react-navigation": "^3.11.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.5",
+    "@babel/runtime": "7.4.5",
+    "babel-jest": "24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^2.3.0",
+    "jest": "24.8.0",
+    "lint-staged": "^8.1.7",
+    "metro-react-native-babel-preset": "0.54.1",
+    "prettier": "^1.17.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
