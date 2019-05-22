@@ -10,34 +10,15 @@ export default class Homepage extends Component<Props> {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View
-          style={{
-            height: 200,
-            backgroundColor: "grey",
-            alignContent: "center",
-            justifyContent: "center"
-          }}
-        >
+        <View style={styles.upperContainer}>
           <Text style={{ color: "white" }}>
             Ebles le Croisé - Ventrue - 6ème Génération
           </Text>
         </View>
-        <View
-          style={{
-            flexGrow: 1,
-            backgroundColor: "black",
-            alignItems: "center"
-          }}
-        >
+        <View style={styles.mainContainer}>
           <Image
             source={Images.profileImage}
-            style={{
-              position: "absolute",
-              top: -40,
-              height: 150,
-              width: 150,
-              borderRadius: 150 / 2
-            }}
+            style={styles.roundProfilePicture}
           />
         </View>
       </View>
@@ -46,17 +27,22 @@ export default class Homepage extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
+  upperContainer: {
+    height: 200,
+    backgroundColor: "grey",
+    alignContent: "center",
+    justifyContent: "center"
+  },
   mainContainer: {
     flexGrow: 1,
-    backgroundColor: "grey",
-    alignItems: "center",
-    justifyContent: "flex-start"
+    backgroundColor: "black",
+    alignItems: "center"
   },
   roundProfilePicture: {
     position: "absolute",
-    top: -50,
+    top: -150 / 2,
     height: width / 3,
     width: width / 3,
-    borderRadius: 150 / 2
+    borderRadius: width / 2
   }
 });
