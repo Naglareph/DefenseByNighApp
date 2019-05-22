@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, ImageBackground, View } from "react-native";
 import { Input, Button, ButtonGroup } from "react-native-elements";
 
+import { routes } from "../../components/AppNavigator/routes";
 import Images from "../../theme/Images";
 
 type Props = {};
@@ -25,6 +26,7 @@ export default class App extends Component<Props> {
 
   handleSignIn = () => {
     const { email, password } = this.state;
+    this.props.navigation.navigate(routes.Homepage);
   };
 
   render() {
@@ -76,7 +78,7 @@ export default class App extends Component<Props> {
               secureTextEntry
               style={styles.white}
             />
-            <Button title="Submit" onPress={this.handleSignup} />
+            <Button title="Submit" onPress={this.handleSignIn} />
           </View>
         ) : (
           <View style={styles.form}>
