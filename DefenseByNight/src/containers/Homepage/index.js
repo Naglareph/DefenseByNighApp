@@ -11,7 +11,7 @@ export default class Homepage extends Component<Props> {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.upperContainer}>
-          <Text style={{ color: "white" }}>
+          <Text style={styles.upperText}>
             Ebles le Croisé - Ventrue - 6ème Génération
           </Text>
         </View>
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     height: 200,
     backgroundColor: "grey",
     alignContent: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    alignItems: "center"
   },
   mainContainer: {
     flexGrow: 1,
@@ -44,5 +45,10 @@ const styles = StyleSheet.create({
     height: width / 3,
     width: width / 3,
     borderRadius: width / 2
+  },
+  upperText: {
+    color: "white",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
