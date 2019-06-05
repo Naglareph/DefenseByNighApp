@@ -116,7 +116,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
-  backgroundImage: { flex: 1, resizeMode: "cover", justifyContent: "center" },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
+  },
   welcome: {
     fontSize: 20,
     textAlign: "center",
