@@ -1,8 +1,8 @@
 import { createStackNavigator } from "react-navigation";
 
-import Authentication from "../../containers/Authentification";
-import Homepage from "../../containers/Homepage";
-import Backstory from "../../containers/Backstory";
+import Authentication from "../Authentification";
+import Homepage from "../Homepage";
+import Backstory from "../Backstory";
 
 const AppNavigator = createStackNavigator({
   Authentication: {

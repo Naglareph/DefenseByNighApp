@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, ImageBackground, View } from "react-native";
 import { Input, Button, ButtonGroup } from "react-native-elements";
 
-import { routes } from "../../components/AppNavigator/routes";
+import { routes } from "../AppNavigator/routes";
 import Images from "../../theme/Images";
 
 type Props = {};

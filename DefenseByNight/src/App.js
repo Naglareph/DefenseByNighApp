@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { createAppContainer } from "react-navigation";
 
-import AppNavigator from "../components/AppNavigator";
+import AppNavigator from "./features/AppNavigator";
 import SplashScreen from "react-native-splash-screen";
 
 const AppContainer = createAppContainer(AppNavigator);
