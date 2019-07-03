@@ -31,14 +31,15 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <ImageBackground
-        source={Images.background}
-        style={styles.backgroundImage}
-      >
+      <View style={{ flex: 1, backgroundColor: "black" }}>
         <ButtonGroup
           onPress={this.updateIndex}
           selectedIndex={this.state.selectedIndex}
           buttons={this.buttons}
+          buttonStyle={{ backgroundColor: "#bb0a1e" }}
+          textStyle={{ color: "white" }}
+          selectedButtonStyle={{ backgroundColor: "#bb2e0a" }}
+          containerStyle={{ backgroundColor: "black" }}
         />
         <Text style={styles.welcome}>
           Welcome to the Defense by Night Application
@@ -78,7 +79,6 @@ export default class App extends Component<Props> {
               secureTextEntry
               style={styles.white}
             />
-            <Button title="Submit" onPress={this.handleSignIn} />
           </View>
         ) : (
           <View style={styles.form}>
@@ -101,10 +101,14 @@ export default class App extends Component<Props> {
               secureTextEntry
               style={styles.white}
             />
-            <Button title="Submit" onPress={this.handleSignIn} />
           </View>
         )}
-      </ImageBackground>
+        <Button
+          title="Submit"
+          onPress={this.handleSignIn}
+          buttonStyle={{ backgroundColor: "#bb0a1e" }}
+        />
+      </View>
     );
   }
 }
