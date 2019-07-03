@@ -17,15 +17,14 @@ import AppNavigator from "./shared/AppNavigator";
 
 const AppContainer = createAppContainer(AppNavigator);
 
-type Props = {};
-export default class App extends Component<Props> {
-  // componentDidMount() {
-  //   SplashScreen.hide();
-  //   NetInfo.isConnected.addEventListener(
-  //     "connectionChange",
-  //     this.handleConnectivityChange
-  //   );
-  // }
+export default class App extends Component {
+  componentDidMount() {
+    SplashScreen.hide();
+    // NetInfo.isConnected.addEventListener(
+    //   "connectionChange",
+    //   this.handleConnectivityChange
+    // );
+  }
 
   // componentWillUnmount() {
   //   NetInfo.isConnected.removeEventListener(

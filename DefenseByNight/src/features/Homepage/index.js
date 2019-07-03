@@ -26,8 +26,7 @@ const { width } = Dimensions.get("window");
 // here is a sample of what persmissions look like
 const userPermissions = [rights.CONTROL_AIP, rights.CONTROL_BACKSTORY];
 
-type Props = {};
-export default class Homepage extends Component<Props> {
+export default class Homepage extends Component {
   state = {
     sheetData: {
       profile_pic: "../../assets/images/default_profile.png",
