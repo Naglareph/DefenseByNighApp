@@ -1,6 +1,6 @@
 import { createStackNavigator } from "react-navigation";
 
-import Authentication from "../Authentification";
+import Authentication from "../../features/Authentification";
 import Homepage from "../../features/Homepage";
 import Backstory from "../../features/Backstory";
 

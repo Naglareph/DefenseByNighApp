@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, ImageBackground, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Input, Button, ButtonGroup } from "react-native-elements";
 
-import { routes } from "../AppNavigator/routes";
-import Images from "../../theme/Images";
+import { routes } from "../../shared/AppNavigator/routes";
 
 type Props = {};
 export default class App extends Component<Props> {

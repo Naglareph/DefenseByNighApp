@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView
 } from "react-native";
+import AnimatedLoader from "react-native-animated-loader";
 import { Button } from "react-native-elements";
 import { routes } from "../../shared/AppNavigator/routes";
 
@@ -32,9 +33,9 @@ export default class Homepage extends Component {
       profile_pic: "../../assets/images/default_profile.png",
       generation: "",
       name: "",
-      clan: "",
-      isLoading: true
-    }
+      clan: ""
+    },
+    isLoading: true
   };
   handleBackstory = () => {
     this.props.navigation.navigate(
@@ -47,7 +48,10 @@ export default class Homepage extends Component {
     const url =
       "https://api.backendless.com/E55416DD-FE03-C5B2-FFAD-8D09FF26CB00/C9173F67-095A-499D-FF0B-5CD4E3402700/data/characters/46EABB23-59FC-390E-FFF5-F2C6EA605E00";
     axios.get(url).then(result => {
-      this.setState({ sheetData: result.data, isLoading: false });
+      this.setState({ sheetData: result.data });
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 1000);
     });
   }
 
@@ -68,8 +72,16 @@ export default class Homepage extends Component {
       attr_soc,
       attr_soc_bonus
     } = this.state.sheetData;
+    const { isLoading } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <AnimatedLoader
+          visible={isLoading}
+          overlayColor="rgba(0,0,0,1)"
+          animationStyle={styles.lottie}
+          speed={1}
+          source={require("../../shared/utils/loader.json")}
+        />
         <ScrollView style={styles.screenStyle}>
           {this.state.isLoading && <View />}
           {!this.state.isLoading && (
@@ -335,5 +347,9 @@ const styles = StyleSheet.create({
   },
   screenStyle: {
     backgroundColor: "black"
+  },
+  lottie: {
+    width: 100,
+    height: 100
   }
 });
