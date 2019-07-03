@@ -1,15 +1,19 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, ScrollView } from "react-native";
 
-import { BACKSTORY } from "../../fixtures/backstoryData";
+export default class Backstory extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      backstory: props.navigation.state.params
+    };
+  }
 
-type Props = {};
-export default class Backstory extends Component<Props> {
   render() {
     return (
-      <View>
-        <Text>{BACKSTORY.historique}</Text>
-      </View>
+      <ScrollView>
+        <Text>{this.state.backstory}</Text>
+      </ScrollView>
     );
   }
 }

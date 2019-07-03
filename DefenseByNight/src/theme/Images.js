@@ -1,4 +1,4 @@
 export default {
   background: require("../../assets/images/wod.jpg"),
-  profileImage: require("../../assets/images/imageProfile.jpg")
+  defaultProfilePic: require("../../assets/images/default_profile.png")
 };

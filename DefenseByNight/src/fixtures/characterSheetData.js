@@ -5,21 +5,14 @@ export const Sheet = {
   generation: "6",
   nature: "Architecte",
   attributes: {
-    physical: {
-      strength: 2,
-      dexterity: 3,
-      stamina: 2
-    },
-    social: {
-      charisma: 4,
-      manipulation: 5,
-      appearance: 2
-    },
-    mental: {
-      perception: 4,
-      intelligence: 4,
-      wits: 3
-    }
+    physical: 7,
+    social: 10,
+    mental: 10
+  },
+  attributesBonus: {
+    physical: 0,
+    social: 0,
+    mental: 2
   },
   abilities: {
     talents: {

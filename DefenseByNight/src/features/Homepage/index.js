@@ -10,99 +10,94 @@ import {
 import { Button } from "react-native-elements";
 import { routes } from "../../shared/AppNavigator/routes";
 
-import Images from "../../theme/Images";
+// -- Axios Requests --
+import axios from "axios";
 
 // Access control
 import AccessControl from "../../shared/AccessControl";
 import { rights } from "../../shared/AccessControl/rights";
 
-// a fixture for the character data
-import { Sheet } from "../../fixtures/characterSheetData";
+// Components
+import Dot from "../../shared/Dot";
+import Attributes from "../Attributes";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 // here is a sample of what persmissions look like
-const userPermissions = [
-  rights.CONTROL_ORGA,
-  rights.CONTROL_AIP,
-  rights.CONTROL_BACKSTORY
-];
+const userPermissions = [rights.CONTROL_AIP, rights.CONTROL_BACKSTORY];
 
 type Props = {};
 export default class Homepage extends Component<Props> {
+  state = {
+    sheetData: {
+      profile_pic: "../../assets/images/default_profile.png",
+      generation: "",
+      name: "",
+      clan: "",
+      isLoading: true
+    }
+  };
   handleBackstory = () => {
-    this.props.navigation.navigate(routes.Backstory);
+    this.props.navigation.navigate(
+      routes.Backstory,
+      this.state.sheetData.backstory
+    );
   };
 
+  getProfile() {
+    const url =
+      "https://api.backendless.com/E55416DD-FE03-C5B2-FFAD-8D09FF26CB00/C9173F67-095A-499D-FF0B-5CD4E3402700/data/characters/46EABB23-59FC-390E-FFF5-F2C6EA605E00";
+    axios.get(url).then(result => {
+      this.setState({ sheetData: result.data, isLoading: false });
+    });
+  }
+
+  componentDidMount() {
+    this.getProfile();
+  }
+
   render() {
+    const {
+      profile_pic,
+      generation,
+      name,
+      clan,
+      attr_men,
+      attr_men_bonus,
+      attr_phy,
+      attr_phy_bonus,
+      attr_soc,
+      attr_soc_bonus
+    } = this.state.sheetData;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.screenStyle}>
-          <View style={styles.upperContainer}>
-            <Text style={styles.upperText}>
-              {Sheet.name} - {Sheet.clan} - {Sheet.generation}ème Génération
-            </Text>
-          </View>
+          {this.state.isLoading && <View />}
+          {!this.state.isLoading && (
+            <View style={styles.upperContainer}>
+              <Text style={styles.upperText}>
+                {name} - {clan} - {generation}ème Génération
+              </Text>
+            </View>
+          )}
           <View style={styles.mainContainer}>
             <Image
-              source={Images.profileImage}
+              source={{ uri: profile_pic }}
               style={styles.roundProfilePicture}
             />
           </View>
 
-          {/* Trying som stuff for the attributes */}
-          <View style={styles.attributeContainer}>
-            <View style={styles.item}>
-              <Text style={styles.attributeText}>Physique</Text>
-              <View style={styles.attribute}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <Text> </Text>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-              </View>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.attributeText}>Social</Text>
-              <View style={styles.attribute}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <Text> </Text>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-              </View>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.attributeText}>Mental</Text>
-              <View style={styles.attribute}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <Text> </Text>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-              </View>
-              <Text style={styles.attributeText}>Bonus</Text>
-              <View style={styles.attribute}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-              </View>
-            </View>
-          </View>
+          {/* Here we load all the attributes of the character and display the dots accordingly */}
+          {!this.state.isLoading && (
+            <Attributes
+              attr_phy={attr_phy}
+              attr_phy_bonus={attr_phy_bonus}
+              attr_men={attr_men}
+              attr_men_bonus={attr_men_bonus}
+              attr_soc={attr_soc}
+              attr_soc_bonus={attr_soc_bonus}
+            />
+          )}
 
           {/* Trying some circles here in the skills section of the homepage */}
 
@@ -110,123 +105,124 @@ export default class Homepage extends Component<Props> {
             <View style={styles.item}>
               <Text style={styles.skillText}>Commandement</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Empathie</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Expression</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Intimidation</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Subterfuge</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Vigilance</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Droit</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
             </View>
             <View style={styles.middleItem}>
               <Text style={styles.skillText}>Commerce</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Equitation</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Etiquette</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Melee</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Survie</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Tir à l'arc</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
               </View>
             </View>
             <View style={styles.item}>
               <Text style={styles.skillText}>Erudtion</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Investigation</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Occultisme</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Politique</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Sénéchale</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Sagesse Populaire</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
               <Text style={styles.skillText}>Théologie</Text>
               <View style={styles.skills}>
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
-                <View style={styles.circleShapeView} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </View>
             </View>
           </View>
@@ -252,7 +248,7 @@ export default class Homepage extends Component<Props> {
             />
             <AccessControl
               userPermissions={userPermissions}
-              allowedPermissions={["control:orga"]}
+              allowedPermissions={[rights.CONTROL_ORGA]}
               renderNoAccess={() => null}
             >
               <Button
@@ -293,12 +289,6 @@ const styles = StyleSheet.create({
     color: "white",
     justifyContent: "center",
     alignItems: "center"
-  },
-  circleShapeView: {
-    width: 10,
-    height: 10,
-    borderRadius: 10 / 2,
-    backgroundColor: "#bb0a1e"
   },
   container: {
     flex: 1,
