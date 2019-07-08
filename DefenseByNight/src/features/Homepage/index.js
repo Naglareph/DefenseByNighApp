@@ -30,7 +30,7 @@ const userPermissions = [rights.CONTROL_AIP, rights.CONTROL_BACKSTORY];
 export default class Homepage extends Component {
   state = {
     sheetData: {
-      profile_pic: "../../assets/images/default_profile.png",
+      characterPic: "../../assets/images/default_profile.png",
       generation: "",
       name: "",
       clan: ""
@@ -46,9 +46,9 @@ export default class Homepage extends Component {
 
   getProfile() {
     const url =
-      "https://api.backendless.com/E55416DD-FE03-C5B2-FFAD-8D09FF26CB00/C9173F67-095A-499D-FF0B-5CD4E3402700/data/characters/46EABB23-59FC-390E-FFF5-F2C6EA605E00";
+      "https://api.backendless.com/E55416DD-FE03-C5B2-FFAD-8D09FF26CB00/C9173F67-095A-499D-FF0B-5CD4E3402700/data/profile/C49700C7-DA3C-97E5-FF29-F24890966C00?loadRelations=characters.disciplines";
     axios.get(url).then(result => {
-      this.setState({ sheetData: result.data });
+      this.setState({ sheetData: result.data.characters[0] });
       setTimeout(() => {
         this.setState({ isLoading: false });
       }, 1000);
@@ -61,7 +61,7 @@ export default class Homepage extends Component {
 
   render() {
     const {
-      profile_pic,
+      characterPic,
       generation,
       name,
       clan,
@@ -93,7 +93,7 @@ export default class Homepage extends Component {
           )}
           <View style={styles.mainContainer}>
             <Image
-              source={{ uri: profile_pic }}
+              source={{ uri: characterPic }}
               style={styles.roundProfilePicture}
             />
           </View>
