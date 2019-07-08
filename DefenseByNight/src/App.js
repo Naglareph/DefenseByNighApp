@@ -1,57 +1,25 @@
 import React, { Component } from "react";
-import { createAppContainer } from "react-navigation";
-import { View } from "react-native";
+import RootContainer from "./shared/RootContainer";
 
-// -- Connectivity --
-import NetInfo from "@react-native-community/netinfo";
-import DropdownAlert from "react-native-dropdownalert";
+/**
+ * Provides an entry point into our application.  Both index.ios.js and index.android.js
+ * call this component first.
+ *
+ * We create our Redux store here, put it into a provider and then bring in our
+ * RootContainer.
+ *
+ * We separate like this to play nice with React Native's hot reloading.
+ * It's here we'll create our redux store and our persist data
+ */
 
-// Components
-import MyStatusBar from "./shared/MyStatusBar";
-
-// -- Splash Screen --
-import SplashScreen from "react-native-splash-screen";
-
-// -- Navigation --
-import AppNavigator from "./shared/AppNavigator";
-
-const AppContainer = createAppContainer(AppNavigator);
-
-export default class App extends Component {
-  componentDidMount() {
-    SplashScreen.hide();
-    // NetInfo.isConnected.addEventListener(
-    //   "connectionChange",
-    //   this.handleConnectivityChange
-    // );
+class App extends Component {
+  constructor(props) {
+    super(props);
   }
-
-  // componentWillUnmount() {
-  //   NetInfo.isConnected.removeEventListener(
-  //     "connectionChange",
-  //     this.handleConnectivityChange
-  //   );
-  // }
-
-  // handleConnectivityChange = isConnected => {
-  //   if (isConnected) {
-  //     this.dropdown.alertWithType("success", "Success", "Now online");
-  //   } else {
-  //     this.dropdown.alertWithType(
-  //       "error",
-  //       "Error",
-  //       "Vous êtes hors ligne, les fonctionnalités peuvent être limitées"
-  //     );
-  //   }
-  // };
 
   render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <MyStatusBar style={{ barStyle: "light-content" }} />
-        <AppContainer />
-        {/* <DropdownAlert closeInterval={4000} ref={ref => (this.dropdown = ref)} /> */}
-      </View>
-    );
+    return <RootContainer />;
   }
 }
+
+export default App;

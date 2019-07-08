@@ -80,6 +80,7 @@ export default class Homepage extends Component {
           overlayColor="rgba(0,0,0,1)"
           animationStyle={styles.lottie}
           speed={1}
+          animationType={"fade"}
           source={require("../../shared/utils/loader.json")}
         />
         <ScrollView style={styles.screenStyle}>
