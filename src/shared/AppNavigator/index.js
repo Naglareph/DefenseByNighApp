@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation";
 import Authentication from "../../features/Authentification";
 import Homepage from "../../features/Homepage";
 import Backstory from "../../features/Backstory";
+import CharacterSheet from "../../features/CharacterSheet";
 
 const AppNavigator = createStackNavigator({
   Authentication: {
@@ -23,6 +24,13 @@ const AppNavigator = createStackNavigator({
     screen: Backstory,
     navigationOptions: {
       title: "Historique de votre personnage"
+    }
+  },
+  CharacterSheet: {
+    screen: CharacterSheet,
+    navigationOptions: {
+      title: "Fiche de Personnage",
+      header: null
     }
   }
 });

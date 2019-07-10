@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "prettier": "prettier --write 'src/features/**/*.js' && prettier --write 'src/shared/**/*.js'",
+    "prettier": "prettier --write './src/features/**/*.js' && prettier --write './src/shared/**/*.js'",
+    "prettier-windows": "prettier --write \"./src/features/**/*.js\" && prettier --write \"./src/shared/**/*.js\"",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "precommit": "lint-staged"
   },
@@ -55,5 +56,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "rnpm": {
+    "assets": [ "./assets/fonts/" ]
   }
 }

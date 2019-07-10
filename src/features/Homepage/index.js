@@ -2,53 +2,62 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  StyleSheet,
   Image,
   Dimensions,
-  ScrollView
+  ScrollView,
+  ImageBackground,
+  Alert
 } from "react-native";
+
 import AnimatedLoader from "react-native-animated-loader";
-import { Button } from "react-native-elements";
+
+import { Button, Card, Icon } from "react-native-elements";
+
+// -- Navigation --
 import { routes } from "../../shared/AppNavigator/routes";
 
 // -- Axios Requests --
 import axios from "axios";
 
-// Access control
-import AccessControl from "../../shared/AccessControl";
-import { rights } from "../../shared/AccessControl/rights";
-
-// Components
-import Dot from "../../shared/Dot";
-import Attributes from "../Attributes";
+// -- Styling --
+import styles from "./style";
+import animations from "../../theme/loaders";
 
 const { width } = Dimensions.get("window");
 
-// here is a sample of what persmissions look like
-const userPermissions = [rights.CONTROL_AIP, rights.CONTROL_BACKSTORY];
-
 export default class Homepage extends Component {
   state = {
+    profileData: {
+      bgPicture: "../../assets/images/default_profile.png",
+      profilePicture: "../../assets/images/default_profile.png",
+      name: ""
+    },
     sheetData: {
       characterPic: "../../assets/images/default_profile.png",
       generation: "",
       name: "",
-      clan: ""
+      clan: "",
+      backstory: ""
     },
     isLoading: true
   };
-  handleBackstory = () => {
-    this.props.navigation.navigate(
-      routes.Backstory,
-      this.state.sheetData.backstory
-    );
+
+  handleCharacterCreationNavigation = () => {
+    Alert.alert("La création de personnage n'est pas encore disponible.");
+    // this.props.navigation.navigate(
+    //   routes.CharacterSheet,
+    // );
   };
 
   getProfile() {
     const url =
       "https://api.backendless.com/E55416DD-FE03-C5B2-FFAD-8D09FF26CB00/C9173F67-095A-499D-FF0B-5CD4E3402700/data/profile/C49700C7-DA3C-97E5-FF29-F24890966C00?loadRelations=characters.disciplines";
     axios.get(url).then(result => {
-      this.setState({ sheetData: result.data.characters[0] });
+      this.setState({
+        sheetData: result.data.characters[0],
+        profileData: result.data,
+        characters: result.data.characters
+      });
       setTimeout(() => {
         this.setState({ isLoading: false });
       }, 1000);
@@ -60,19 +69,10 @@ export default class Homepage extends Component {
   }
 
   render() {
-    const {
-      characterPic,
-      generation,
-      name,
-      clan,
-      attr_men,
-      attr_men_bonus,
-      attr_phy,
-      attr_phy_bonus,
-      attr_soc,
-      attr_soc_bonus
-    } = this.state.sheetData;
+    const { characterPic, generation, name, clan } = this.state.sheetData;
+    const { profilePicture } = this.state.profileData;
     const { isLoading } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <AnimatedLoader
@@ -81,276 +81,81 @@ export default class Homepage extends Component {
           animationStyle={styles.lottie}
           speed={1}
           animationType={"fade"}
-          source={require("../../shared/utils/loader.json")}
+          source={animations.defaultLoader}
         />
         <ScrollView style={styles.screenStyle}>
           {this.state.isLoading && <View />}
           {!this.state.isLoading && (
-            <View style={styles.upperContainer}>
-              <Text style={styles.upperText}>
-                {name} - {clan} - {generation}ème Génération
-              </Text>
-            </View>
-          )}
-          <View style={styles.mainContainer}>
-            <Image
-              source={{ uri: characterPic }}
-              style={styles.roundProfilePicture}
-            />
-          </View>
-
-          {/* Here we load all the attributes of the character and display the dots accordingly */}
-          {!this.state.isLoading && (
-            <Attributes
-              attr_phy={attr_phy}
-              attr_phy_bonus={attr_phy_bonus}
-              attr_men={attr_men}
-              attr_men_bonus={attr_men_bonus}
-              attr_soc={attr_soc}
-              attr_soc_bonus={attr_soc_bonus}
-            />
-          )}
-
-          {/* Trying some circles here in the skills section of the homepage */}
-
-          <View style={styles.container}>
-            <View style={styles.item}>
-              <Text style={styles.skillText}>Commandement</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Empathie</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Expression</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Intimidation</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Subterfuge</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Vigilance</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Droit</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-            </View>
-            <View style={styles.middleItem}>
-              <Text style={styles.skillText}>Commerce</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Equitation</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Etiquette</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Melee</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Survie</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Tir à l'arc</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-              </View>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.skillText}>Erudtion</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Investigation</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Occultisme</Text>
-              <View style={styles.skills}>
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Politique</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Sénéchale</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Sagesse Populaire</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-              <Text style={styles.skillText}>Théologie</Text>
-              <View style={styles.skills}>
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-                <Dot />
-              </View>
-            </View>
-          </View>
-
-          {/* End of test */}
-
-          <View
-            style={{
-              alignContent: "flex-start",
-              justifyContent: "flex-start",
-              backgroundColor: "black"
-            }}
-          >
-            <Button
-              buttonStyle={{ backgroundColor: "#bb0a1e", margin: 10 }}
-              title="Actions Inter Parties"
-              onPress={this.handleBackstory}
-            />
-            <Button
-              buttonStyle={{ backgroundColor: "#bb0a1e", margin: 10 }}
-              title="Historique"
-              onPress={this.handleBackstory}
-            />
-            <AccessControl
-              userPermissions={userPermissions}
-              allowedPermissions={[rights.CONTROL_ORGA]}
-              renderNoAccess={() => null}
+            <ImageBackground
+              source={{ uri: this.state.profileData.bgPicture }}
+              style={styles.bgPicture}
             >
+              <Text style={styles.upperText}>
+                {this.state.profileData.name}
+              </Text>
+            </ImageBackground>
+          )}
+          {!this.state.isLoading && (
+            <View style={styles.profilePictureContainer}>
+              <Image
+                source={{ uri: profilePicture }}
+                style={styles.roundProfilePicture}
+              />
+            </View>
+          )}
+          {!this.state.isLoading && (
+            <View style={styles.mainContainer}>
+              {this.state.characters.map((u, i) => {
+                let backstorySnip = u.backstory.substring(0, 97) + "...";
+                return (
+                  <Card
+                    key={i}
+                    title={u.name}
+                    containerStyle={styles.cardContainer}
+                    titleStyle={styles.cardTitleText}
+                  >
+                    <View style={styles.cardUpperContainer}>
+                      <Image
+                        source={{ uri: u.characterPic }}
+                        style={styles.roundCardPicture}
+                      />
+                      <View style={styles.leftTextCardUpperContainer}>
+                        <Text style={styles.leftCardUpperText}>
+                          Ancien {u.clan}
+                        </Text>
+                        <Text style={styles.leftCardUpperText}>
+                          {u.generation}ème Génération
+                        </Text>
+                      </View>
+                    </View>
+                    <Text style={styles.backgroundSnipText}>
+                      {backstorySnip}
+                    </Text>
+                    <Button
+                      icon={
+                        <Icon
+                          type="material"
+                          name="accessibility"
+                          color="#ffffff"
+                        />
+                      }
+                      backgroundColor="#bb0a1e"
+                      buttonStyle={styles.cardButton}
+                      title="Fiche du personnage"
+                      onPress={this.handleCharacterCreationNavigation}
+                    />
+                  </Card>
+                );
+              })}
               <Button
                 buttonStyle={{ backgroundColor: "#bb0a1e", margin: 10 }}
-                title="Interface Organisateur"
-                onPress={this.handleBackstory}
+                title="Créer un nouveau personnage"
+                onPress={this.handleCharacterCreationNavigation}
               />
-            </AccessControl>
-          </View>
+            </View>
+          )}
         </ScrollView>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  upperContainer: {
-    height: 200,
-    backgroundColor: "grey",
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  mainContainer: {
-    flexGrow: 1,
-    backgroundColor: "black",
-    alignItems: "center"
-  },
-  roundProfilePicture: {
-    position: "absolute",
-    top: -150 / 2,
-    height: width / 3,
-    width: width / 3,
-    borderRadius: width / 2,
-    zIndex: 5
-  },
-  upperText: {
-    color: "white",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  container: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-start", // if you want to fill rows left to right
-    backgroundColor: "black"
-  },
-  item: {
-    width: "33%"
-  },
-  middleItem: {
-    width: "34%"
-  },
-  attribute: {
-    backgroundColor: "black",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  attributeContainer: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "flex-start", // if you want to fill rows left to right
-    backgroundColor: "black",
-    marginBottom: 10,
-    marginTop: 60
-  },
-  attributeText: {
-    color: "white",
-    textAlign: "center",
-    fontStyle: "italic",
-    fontSize: 12
-  },
-  skills: {
-    backgroundColor: "black",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  skillText: {
-    color: "white",
-    textAlign: "center"
-  },
-  screenStyle: {
-    backgroundColor: "black"
-  },
-  lottie: {
-    width: 100,
-    height: 100
-  }
-});

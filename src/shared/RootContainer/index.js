@@ -27,29 +27,29 @@ export default class RootContainer extends Component {
 
   componentDidMount() {
     SplashScreen.hide();
-    NetInfo.isConnected.addEventListener(
-      "connectionChange",
-      this.handleConnectivityChange
-    );
+    // NetInfo.isConnected.addEventListener(
+    //   "connectionChange",
+    //   this.handleConnectivityChange
+    // );
   }
 
   componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      "connectionChange",
-      this.handleConnectivityChange
-    );
+    // NetInfo.isConnected.removeEventListener(
+    //   "connectionChange",
+    //   this.handleConnectivityChange
+    // );
   }
 
   handleConnectivityChange = isConnected => {
-    if (isConnected) {
-      this.dropdown.alertWithType("success", "", "Connecté");
-    } else {
-      this.dropdown.alertWithType(
-        "error",
-        "Error",
-        "Vous semblez hors ligne, les fonctionnalités peuvent être limitées"
-      );
-    }
+    // if (isConnected) {
+    //   this.dropdown.alertWithType("success", "", "Connecté");
+    // } else {
+    //   this.dropdown.alertWithType(
+    //     "error",
+    //     "Error",
+    //     "Vous semblez hors ligne, les fonctionnalités peuvent être limitées"
+    //   );
+    // }
   };
 
   render() {
@@ -57,10 +57,10 @@ export default class RootContainer extends Component {
       <View style={{ flex: 1 }}>
         <MyStatusBar style={{ barStyle: "light-content" }} />
         <AppContainer />
-        <DropdownAlert
+        {/* <DropdownAlert
           closeInterval={4000}
           ref={ref => (this.dropdown = ref)}
-        />
+        /> */}
       </View>
     );
   }
