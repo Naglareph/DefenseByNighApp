@@ -20,7 +20,14 @@ export default class CharacterCard extends Component {
   };
 
   render() {
-    const { name, characterPic, clan, generation, backstorySnip } = this.props;
+    const {
+      name,
+      characterPic,
+      clan,
+      generation,
+      backstorySnip,
+      status
+    } = this.props;
 
     return (
       <Card
@@ -35,7 +42,7 @@ export default class CharacterCard extends Component {
           />
           <View style={styles.leftTextCardUpperContainer}>
             <Text style={styles.leftCardUpperText}>
-              Ancien {clan}
+              {status} {clan}
               {/* @todo ajouter ici la gestion du statut et du poste du personnage */}
             </Text>
             <Text style={styles.leftCardUpperText}>

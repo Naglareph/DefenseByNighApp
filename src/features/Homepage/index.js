@@ -18,9 +18,6 @@ import CharacterCard from "../CharacterCard";
 // -- Navigation --
 import { routes } from "../../shared/AppNavigator/routes";
 
-// -- Axios Requests --
-import axios from "axios";
-
 // -- Redux --
 import { connect } from "react-redux";
 import { getProfile } from "./actions";
@@ -48,6 +45,10 @@ export class Homepage extends Component {
     // );
   };
 
+  handleBackstorySnip(str) {
+    return str.substring(0, 97) + "...";
+  }
+
   render() {
     const {
       isLoading,
@@ -58,14 +59,14 @@ export class Homepage extends Component {
     } = this.props.profiles;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.globalContainer}>
         <AnimatedLoader
           visible={isLoading}
           overlayColor="rgba(0,0,0,1)"
           animationStyle={styles.lottie}
           speed={1}
           animationType={"fade"}
-          source={require("../../../assets/animations/defaultLoader.json")}
+          source={animations.defaultLoader}
         />
         <ScrollView style={styles.screenStyle}>
           {isLoading && <View />}
@@ -88,11 +89,12 @@ export class Homepage extends Component {
           {!isLoading && characters && (
             <View style={styles.mainContainer}>
               {characters.map((u, i) => {
-                let backstorySnip = u.backstory.substring(0, 97) + "...";
+                let backstorySnip = this.handleBackstorySnip(u.backstory);
                 return (
                   <CharacterCard
                     key={i}
                     name={u.name}
+                    status={u.vampire_status}
                     characterPic={u.characterPic}
                     clan={u.clan}
                     generation={u.generation}
@@ -101,7 +103,7 @@ export class Homepage extends Component {
                 );
               })}
               <Button
-                buttonStyle={{ backgroundColor: "#bb0a1e", margin: 10 }}
+                buttonStyle={styles.characterCreationButton}
                 title="Créer un nouveau personnage"
                 onPress={this.handleCharacterCreationNavigation}
               />

@@ -3,6 +3,9 @@ import { StyleSheet, Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 
 export default StyleSheet.create({
+  globalContainer: {
+    flex: 1
+  },
   bgPicture: {
     width: width,
     height: 200,
@@ -30,13 +33,6 @@ export default StyleSheet.create({
     borderRadius: width / 2,
     zIndex: 5
   },
-  roundCardPicture: {
-    height: width / 3 - 40,
-    width: width / 3 - 40,
-    borderRadius: width / 2 - 20,
-    overflow: "hidden",
-    margin: width / 20 - 10
-  },
   upperText: {
     color: "white",
     justifyContent: "center",
@@ -63,38 +59,8 @@ export default StyleSheet.create({
     width: 100,
     height: 100
   },
-  cardContainer: {
-    borderRadius: 10,
-    marginLeft: 32,
-    marginRight: 32,
-    backgroundColor: "#8a8988"
-  },
-  cardUpperContainer: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  leftTextCardUpperContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    marginLeft: width / 10
-  },
-  leftCardUpperText: {
-    fontWeight: "bold",
-    fontFamily: ""
-  },
-  cardButton: {
+  characterCreationButton: {
     backgroundColor: "#bb0a1e",
-    borderRadius: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    marginBottom: 0
-  },
-  backgroundSnipText: {
-    marginBottom: 10,
-    padding: 16,
-    fontStyle: "italic"
-  },
-  cardTitleText: {
-    fontFamily: "Zocial"
+    margin: 10
   }
 });
