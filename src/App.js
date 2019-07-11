@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import RootContainer from "./shared/RootContainer";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 /**
  * Provides an entry point into our application.  Both index.ios.js and index.android.js
@@ -18,7 +20,11 @@ class App extends Component {
   }
 
   render() {
-    return <RootContainer />;
+    return (
+      <Provider store={store}>
+        <RootContainer />
+      </Provider>
+    );
   }
 }
 

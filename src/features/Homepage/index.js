@@ -3,7 +3,6 @@ import {
   Text,
   View,
   Image,
-  Dimensions,
   ScrollView,
   ImageBackground,
   Alert
@@ -11,7 +10,10 @@ import {
 
 import AnimatedLoader from "react-native-animated-loader";
 
-import { Button, Card, Icon } from "react-native-elements";
+import { Button } from "react-native-elements";
+
+//-- Components --
+import CharacterCard from "../CharacterCard";
 
 // -- Navigation --
 import { routes } from "../../shared/AppNavigator/routes";
@@ -19,59 +21,41 @@ import { routes } from "../../shared/AppNavigator/routes";
 // -- Axios Requests --
 import axios from "axios";
 
+// -- Redux --
+import { connect } from "react-redux";
+import { getProfile } from "./actions";
+
 // -- Styling --
 import styles from "./style";
 import animations from "../../theme/loaders";
 
-const { width } = Dimensions.get("window");
+export class Homepage extends Component {
+  constructor(props) {
+    super(props);
+    this.props.profile = {
+      characters: []
+    };
+  }
 
-export default class Homepage extends Component {
-  state = {
-    profileData: {
-      bgPicture: "../../assets/images/default_profile.png",
-      profilePicture: "../../assets/images/default_profile.png",
-      name: ""
-    },
-    sheetData: {
-      characterPic: "../../assets/images/default_profile.png",
-      generation: "",
-      name: "",
-      clan: "",
-      backstory: ""
-    },
-    isLoading: true
-  };
+  componentDidMount() {
+    this.props.getProfile();
+  }
 
   handleCharacterCreationNavigation = () => {
     Alert.alert("La création de personnage n'est pas encore disponible.");
     // this.props.navigation.navigate(
-    //   routes.CharacterSheet,
+    //   routes.CharacterCreation,
     // );
   };
 
-  getProfile() {
-    const url =
-      "https://api.backendless.com/E55416DD-FE03-C5B2-FFAD-8D09FF26CB00/C9173F67-095A-499D-FF0B-5CD4E3402700/data/profile/C49700C7-DA3C-97E5-FF29-F24890966C00?loadRelations=characters.disciplines";
-    axios.get(url).then(result => {
-      this.setState({
-        sheetData: result.data.characters[0],
-        profileData: result.data,
-        characters: result.data.characters
-      });
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-      }, 1000);
-    });
-  }
-
-  componentDidMount() {
-    this.getProfile();
-  }
-
   render() {
-    const { characterPic, generation, name, clan } = this.state.sheetData;
-    const { profilePicture } = this.state.profileData;
-    const { isLoading } = this.state;
+    const {
+      isLoading,
+      bgPicture,
+      name,
+      profilePicture,
+      characters
+    } = this.props.profiles;
 
     return (
       <View style={{ flex: 1 }}>
@@ -81,21 +65,19 @@ export default class Homepage extends Component {
           animationStyle={styles.lottie}
           speed={1}
           animationType={"fade"}
-          source={animations.defaultLoader}
+          source={require("../../../assets/animations/defaultLoader.json")}
         />
         <ScrollView style={styles.screenStyle}>
-          {this.state.isLoading && <View />}
-          {!this.state.isLoading && (
+          {isLoading && <View />}
+          {!isLoading && (
             <ImageBackground
-              source={{ uri: this.state.profileData.bgPicture }}
+              source={{ uri: bgPicture }}
               style={styles.bgPicture}
             >
-              <Text style={styles.upperText}>
-                {this.state.profileData.name}
-              </Text>
+              <Text style={styles.upperText}>{name}</Text>
             </ImageBackground>
           )}
-          {!this.state.isLoading && (
+          {!isLoading && (
             <View style={styles.profilePictureContainer}>
               <Image
                 source={{ uri: profilePicture }}
@@ -103,48 +85,19 @@ export default class Homepage extends Component {
               />
             </View>
           )}
-          {!this.state.isLoading && (
+          {!isLoading && characters && (
             <View style={styles.mainContainer}>
-              {this.state.characters.map((u, i) => {
+              {characters.map((u, i) => {
                 let backstorySnip = u.backstory.substring(0, 97) + "...";
                 return (
-                  <Card
+                  <CharacterCard
                     key={i}
-                    title={u.name}
-                    containerStyle={styles.cardContainer}
-                    titleStyle={styles.cardTitleText}
-                  >
-                    <View style={styles.cardUpperContainer}>
-                      <Image
-                        source={{ uri: u.characterPic }}
-                        style={styles.roundCardPicture}
-                      />
-                      <View style={styles.leftTextCardUpperContainer}>
-                        <Text style={styles.leftCardUpperText}>
-                          Ancien {u.clan}
-                        </Text>
-                        <Text style={styles.leftCardUpperText}>
-                          {u.generation}ème Génération
-                        </Text>
-                      </View>
-                    </View>
-                    <Text style={styles.backgroundSnipText}>
-                      {backstorySnip}
-                    </Text>
-                    <Button
-                      icon={
-                        <Icon
-                          type="material"
-                          name="accessibility"
-                          color="#ffffff"
-                        />
-                      }
-                      backgroundColor="#bb0a1e"
-                      buttonStyle={styles.cardButton}
-                      title="Fiche du personnage"
-                      onPress={this.handleCharacterCreationNavigation}
-                    />
-                  </Card>
+                    name={u.name}
+                    characterPic={u.characterPic}
+                    clan={u.clan}
+                    generation={u.generation}
+                    backstorySnip={backstorySnip}
+                  />
                 );
               })}
               <Button
@@ -159,3 +112,18 @@ export default class Homepage extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  profiles: state.homepageReducers.data
+});
+
+const mapDispatchToProps = dispatch => ({
+  getProfile: () => {
+    dispatch(getProfile());
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Homepage);
