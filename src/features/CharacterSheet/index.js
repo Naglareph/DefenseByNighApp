@@ -7,6 +7,7 @@ import { routes } from "../../shared/AppNavigator/routes";
 // Components
 import Dot from "../../shared/Dot";
 import Attributes from "../Attributes";
+import Disciplines from "../Disciplines";
 
 // -- Styling --
 import styles from "./style";
@@ -37,7 +38,8 @@ export default class CharacterSheet extends Component {
       attr_phy,
       attr_phy_bonus,
       attr_soc,
-      attr_soc_bonus
+      attr_soc_bonus,
+      disciplines
     } = this.state.character;
     return (
       <View style={{ flex: 1 }}>
@@ -189,6 +191,8 @@ export default class CharacterSheet extends Component {
               </View>
             </View>
           </View>
+
+          <Disciplines disciplines={disciplines} />
 
           {/* End of test */}
 

@@ -10,7 +10,6 @@ export default class Attributes extends Component {
   }
 
   render() {
-    const { props } = this;
     const {
       attr_men,
       attr_men_bonus,
@@ -18,7 +17,7 @@ export default class Attributes extends Component {
       attr_phy_bonus,
       attr_soc,
       attr_soc_bonus
-    } = props;
+    } = this.props;
 
     // Here we stock the dots dynamically for all physical attributes
     var physicalAttr = [];
