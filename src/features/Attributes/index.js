@@ -76,7 +76,7 @@ export default class Attributes extends Component {
             <Text style={styles.attributeText}>Bonus</Text>
           )}
           {this.props.attr_soc_bonus > 0 && (
-            <View style={styles.attribute}>{socialAttr}</View>
+            <View style={styles.attribute}>{socialAttrBonus}</View>
           )}
         </View>
         <View style={styles.item}>

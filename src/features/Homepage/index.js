@@ -29,9 +29,6 @@ import animations from "../../theme/loaders";
 export class Homepage extends Component {
   constructor(props) {
     super(props);
-    this.props.profile = {
-      characters: []
-    };
   }
 
   componentDidMount() {
@@ -85,7 +82,13 @@ export class Homepage extends Component {
           {!isLoading && characters && (
             <View style={styles.mainContainer}>
               {characters.map((u, i) => {
-                return <CharacterCard character={u} key={i} />;
+                return (
+                  <CharacterCard
+                    character={u}
+                    key={i}
+                    navigation={this.props.navigation}
+                  />
+                );
               })}
               <Button
                 buttonStyle={styles.characterCreationButton}

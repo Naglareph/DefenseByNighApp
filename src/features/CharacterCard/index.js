@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image, Alert } from "react-native";
+import { Text, View, Image } from "react-native";
 
 import { Button, Card, Icon } from "react-native-elements";
 
@@ -15,7 +15,7 @@ export default class CharacterCard extends Component {
   }
 
   handleCharacterNavigation = () => {
-    alert("Not implemented yet, please be patient. :)");
+    this.props.navigation.navigate(routes.CharacterSheet, this.props.character);
   };
 
   handleBackstorySnip(str) {

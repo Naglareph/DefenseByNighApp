@@ -27,11 +27,7 @@ const AppNavigator = createStackNavigator({
     }
   },
   CharacterSheet: {
-    screen: CharacterSheet,
-    navigationOptions: {
-      title: "Fiche de Personnage",
-      header: null
-    }
+    screen: CharacterSheet
   }
 });
 
