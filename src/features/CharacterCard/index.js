@@ -16,8 +16,11 @@ export default class CharacterCard extends Component {
 
   handleCharacterNavigation = () => {
     alert("Not implemented yet, please be patient. :)");
-    // @todo pass the sheet with the navigation or pass it to redux
   };
+
+  handleBackstorySnip(str) {
+    return str.substring(0, 97) + "...";
+  }
 
   render() {
     const {
@@ -25,9 +28,11 @@ export default class CharacterCard extends Component {
       characterPic,
       clan,
       generation,
-      backstorySnip,
-      status
-    } = this.props;
+      status,
+      backstory
+    } = this.props.character;
+
+    let backstorySnip = this.handleBackstorySnip(backstory);
 
     return (
       <Card

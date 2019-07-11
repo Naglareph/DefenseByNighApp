@@ -45,10 +45,6 @@ export class Homepage extends Component {
     // );
   };
 
-  handleBackstorySnip(str) {
-    return str.substring(0, 97) + "...";
-  }
-
   render() {
     const {
       isLoading,
@@ -89,18 +85,7 @@ export class Homepage extends Component {
           {!isLoading && characters && (
             <View style={styles.mainContainer}>
               {characters.map((u, i) => {
-                let backstorySnip = this.handleBackstorySnip(u.backstory);
-                return (
-                  <CharacterCard
-                    key={i}
-                    name={u.name}
-                    status={u.vampire_status}
-                    characterPic={u.characterPic}
-                    clan={u.clan}
-                    generation={u.generation}
-                    backstorySnip={backstorySnip}
-                  />
-                );
+                return <CharacterCard character={u} key={i} />;
               })}
               <Button
                 buttonStyle={styles.characterCreationButton}
